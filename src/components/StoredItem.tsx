@@ -1,43 +1,49 @@
-import { useEffect, useState } from "react";
-import StoredItem from "../components/StoredItem";
 
+import {useContext} from 'react';
+import { ShoppingCartContext } from '../context/ShoppingCartContext';
 
-
-type StoredItemProps = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-} 
-
-const Store = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(()=>{
-    const productList = async()=>{
-      const res = await fetch("https://fakestoreapi.com/products/");
-      const data = await res.json();
-      setProducts(data);
-    }
-    productList();
-  },[]);
   
-  const catProd = products.filter((product:StoredItemProps) =>{
-    return product.category === "men's clothing" || product.category === "women's clothing";
-  })
+
+
+  
+const StoredItem = ({product}:any) => {
+    const {id, title, price, category, description, image} = product;
+     
+    const {getAmount, increaseAmount, decreaseAmount, deleteAmount } = useContext(ShoppingCartContext);
+
+    //Amount Adding to the product
+    const amount = getAmount(id);
+
   return (
-    <div className="container mx-auto max-w-[1260px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 py-10">
-      {
-        catProd.map((product:StoredItemProps)=>{
-          
-          return (
-              <StoredItem key={product.id} product={product} />
-          )
-        })
-      }
+    <div className="rounded-md flex flex-col p-2   border">
+        <div className="cursor-pointer hover:p-4 h-[300px] p-8 duration-500">
+            <img src={image} alt="" className="h-[100%] object-cover " />
+        </div>
+        <div className="">
+            <span className=" text-[14px] cursor-pointer hover:underline">{title}</span>
+        </div>
+        <div className="my-3">
+            <span className="font-bold">Price - ${price}</span>
+        </div>
+        <div className="w-[100%] flex justify-center">
+            {
+                //Adding product to the cart
+               amount === 0?(<button onClick={()=>increaseAmount(id)} className=" block bg-red-500 w-[100%] text-white py-2 rounded-md shadow-md">Add to cart</button>): 
+               (<div className=" flex items-center justify-around w-[100%]">
+                    <div className="flex justify-around w-[50%]">
+                        {/* amount decrement */}
+                        <button onClick={()=>decreaseAmount(id)}  className=" w-[30px] text-white rounded-md bg-red-500 flex items-center justify-center">-</button>
+                        <span>{amount}</span>
+                        {/* amount decrement */}
+                        <button onClick={()=>increaseAmount(id)} className="  w-[30px]  text-white rounded-md flex items-center bg-red-500 justify-center">+</button>
+                    </div>
+                    {/* delete amount*/}
+                    <div onClick={()=>deleteAmount(id)} className="text-white rounded-md flex items-center bg-red-500 justify-center px-3 cursor-pointer">Remove</div>
+               </div>)
+            }
+        </div>
     </div>
   )
 }
 
-export default Store
+export default StoredItem
