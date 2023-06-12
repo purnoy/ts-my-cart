@@ -8,10 +8,6 @@ type CartItemType = {
 
 //Context Type
 type ShoppingCartContextType = {
-  openCart: () => void;
-  closeCart: () => void;
-  cartAmount: number;
-  cartItems: CartItemType[];
   getAmount: (id:number) => number;
   increaseAmount: (id:number) => void;
   decreaseAmount: (id:number) => void;
@@ -81,12 +77,8 @@ const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
     })
   }
 
-  const cartAmount = cartItems.reduce(
-    (qty, item)=>
-    )
-
   return (
-    <ShoppingCartContext.Provider value={{ getAmount, increaseAmount, decreaseAmount, deleteAmount, cartItems, cartAmount,   }}>
+    <ShoppingCartContext.Provider value={{ getAmount, increaseAmount, decreaseAmount, deleteAmount   }}>
         {children}
     </ShoppingCartContext.Provider>
   )
