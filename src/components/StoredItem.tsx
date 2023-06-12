@@ -7,7 +7,7 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 
   
 const StoredItem = ({product}:any) => {
-    const {id, title, price, category, description, image} = product;
+    const {id, title, price, image} = product;
      
     const {getAmount, increaseAmount, decreaseAmount, deleteAmount } = useContext(ShoppingCartContext);
 
