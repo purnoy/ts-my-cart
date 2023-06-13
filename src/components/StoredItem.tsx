@@ -3,6 +3,9 @@ import {useContext} from 'react';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 
   
+
+
+
   
 const StoredItem = ({product}:any) => {
 
