@@ -3,16 +3,16 @@ import {useContext} from 'react';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
 
   
-
-
   
 const StoredItem = ({product}:any) => {
-    const {id, title, price, image} = product;
+
+    const {id, title, price,  image} = product;
+
      
     const {getAmount, increaseAmount, decreaseAmount, deleteAmount } = useContext(ShoppingCartContext);
 
     //Amount Adding to the product
-    const amount = getAmount(id);
+    const amount = getAmount(product);
 
   return (
     <div className="rounded-md flex flex-col p-2   border">
@@ -28,14 +28,14 @@ const StoredItem = ({product}:any) => {
         <div className="w-[100%] flex justify-center">
             {
                 //Adding product to the cart
-               amount === 0?(<button onClick={()=>increaseAmount(id)} className=" block bg-red-500 w-[100%] text-white py-2 rounded-md shadow-md">Add to cart</button>): 
+               amount === 0?(<button onClick={()=>increaseAmount(product)} className=" block bg-red-500 w-[100%] text-white py-2 rounded-md shadow-md">Add to cart</button>): 
                (<div className=" flex items-center justify-around w-[100%]">
                     <div className="flex justify-around w-[50%]">
                         {/* amount decrement */}
-                        <button onClick={()=>decreaseAmount(id)}  className=" w-[30px] text-white rounded-md bg-red-500 flex items-center justify-center">-</button>
+                        <button onClick={()=>decreaseAmount(product)}  className=" w-[30px] text-white rounded-md bg-red-500 flex items-center justify-center">-</button>
                         <span>{amount}</span>
                         {/* amount decrement */}
-                        <button onClick={()=>increaseAmount(id)} className="  w-[30px]  text-white rounded-md flex items-center bg-red-500 justify-center">+</button>
+                        <button onClick={()=>increaseAmount(product)} className="  w-[30px]  text-white rounded-md flex items-center bg-red-500 justify-center">+</button>
                     </div>
                     {/* delete amount*/}
                     <div onClick={()=>deleteAmount(id)} className="text-white rounded-md flex items-center bg-red-500 justify-center px-3 cursor-pointer">Remove</div>
