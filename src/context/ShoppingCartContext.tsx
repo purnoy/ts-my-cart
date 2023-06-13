@@ -1,16 +1,8 @@
 import {createContext, ReactNode, useState} from "react";
 import ShoppingCart from "../components/ShoppingCart";
+import { StoredItemType } from "../types/storeDataTypes";
 
-//UseState Cart Type
-
-
-type StoredItemProps = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
+interface amount extends StoredItemType {
   amount: number;
 } 
 
@@ -19,14 +11,13 @@ type StoredItemProps = {
 type ShoppingCartContextType = {
   openCart:()=> void;
   closeCart:() => void;
-  getAmount: (product:StoredItemProps) => number;
-  increaseAmount: (product:StoredItemProps) => void;
-  decreaseAmount: (product:StoredItemProps) => void;
+  getAmount: (product:StoredItemType) => number;
+  increaseAmount: (product:StoredItemType) => void;
+  decreaseAmount: (product:StoredItemType) => void;
   deleteAmount: (id:number) => void;
   cartAmount: number;
-  cartItems: Array<StoredItemProps>;
+  cartItems: Array<StoredItemType>;
 }
-
 
 
 export const ShoppingCartContext = createContext({} as 
@@ -38,16 +29,16 @@ type ShoppingCartContextProps = {
 
 //Provider
 const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
-  const [cartItems, setCartItems] = useState <StoredItemProps[]>([]);
+  const [cartItems, setCartItems] = useState <amount[]>([]);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   //Fixing the amount of the product
-  const getAmount = (product: StoredItemProps) =>{
+  const getAmount = (product: StoredItemType) =>{
     return cartItems.find(item=> item.id===product.id)?.amount || 0;
   }
 
   //Product amount increment
-  const increaseAmount = (product:StoredItemProps) =>{
+  const increaseAmount = (product:StoredItemType) =>{
     setCartItems(cartItems=>{
       if(cartItems.find(item => item.id === product.id)==null){
         return [...cartItems, {...product, amount: 1}]
@@ -66,7 +57,7 @@ const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
   }
 
   //Product Amount Decrement
-  const decreaseAmount = (product:StoredItemProps) =>{
+  const decreaseAmount = (product:StoredItemType) =>{
     setCartItems(cartItems=>{
       if(cartItems.find(item => item.id === product.id)?.amount == 1){
         return cartItems.filter(item => item.id !== product.id);

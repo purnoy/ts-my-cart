@@ -1,20 +1,12 @@
 import {useContext} from 'react';
 import { ShoppingCartContext } from "../context/ShoppingCartContext";
-
+import { StoredItemType } from "../types/storeDataTypes";
 
 type cartPropsType = {
     isCartOpen: boolean;
   }
 
-  type StoredItemProps = {
-    id: number;
-    title: string;
-    price: number;
-    category: string;
-    description: string;
-    image: string;
-    amount:number;
-  } 
+
   
 const ShoppingCart = ({isCartOpen}:cartPropsType) => {
     const {closeCart, cartAmount, cartItems, deleteAmount } = useContext(ShoppingCartContext);
@@ -28,7 +20,7 @@ const ShoppingCart = ({isCartOpen}:cartPropsType) => {
             </div>
             <div className="mt-5 px-5 flex flex-col w-[100%]">
                 {
-                    cartItems.map((item:StoredItemProps) =>{
+                    cartItems.map((item:StoredItemType) =>{
                         return(
                             <div key={item.id} className="flex items-center  max-w-[100%] space-x-10">
                                 <div className="h-[80px] m-5 w-[20%]">

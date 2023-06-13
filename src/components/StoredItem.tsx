@@ -1,13 +1,12 @@
 
 import {useContext} from 'react';
 import { ShoppingCartContext } from '../context/ShoppingCartContext';
-
-  
-
+import { StoredItemType } from '../types/storeDataTypes';
 
 
   
-const StoredItem = ({product}:any) => {
+const StoredItem:React.FC<{product:StoredItemType}> =({product}) => {
+
 
     const {id, title, price,  image} = product;
 
