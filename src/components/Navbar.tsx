@@ -5,7 +5,7 @@ import { ShoppingCartContext } from '../context/ShoppingCartContext';
 const Navbar = () => {
   const {cartAmount, openCart} = useContext(ShoppingCartContext)
   return (
-    <nav className="lg mb-3 container mx-auto bg-white shadow-xl p-4 sticky top-0">
+    <nav className="lg mb-3 container mx-auto bg-white shadow-xl p-4 sticky z-10 top-0">
         <div className="flex items-center justify-center space-x-16 text-xl uppercase">
            <Link className="hover:text-red-500" to="/" >Home</Link>
            <Link className="hover:text-red-500" to="/store">Store</Link>
