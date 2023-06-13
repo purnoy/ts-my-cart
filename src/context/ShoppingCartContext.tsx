@@ -7,14 +7,23 @@ type CartItemType = {
   amount: number;
 }
 
+type StoredItemProps = {
+  id: number;
+  title: string;
+  price: number;
+  category: string;
+  description: string;
+  image: string;
+} 
+
 
 //Context Type
 type ShoppingCartContextType = {
   openCart:()=> void;
   closeCart:() => void;
-  getAmount: (id:number) => number;
-  increaseAmount: (id:number) => void;
-  decreaseAmount: (id:number) => void;
+  getAmount: (product:StoredItemProps) => number;
+  increaseAmount: (product:StoredItemProps) => void;
+  decreaseAmount: (product:StoredItemProps) => void;
   deleteAmount: (id:number) => void;
   cartAmount: number;
   cartItems: Array<CartItemType>;
@@ -35,19 +44,19 @@ const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   //Fixing the amount of the product
-  const getAmount = (id: number) =>{
-    return cartItems.find(item=> item.id===id)?.amount || 0;
+  const getAmount = (product: StoredItemProps) =>{
+    return cartItems.find(item=> item.id===product.id)?.amount || 0;
   }
 
   //Product amount increment
-  const increaseAmount = (id: number) =>{
+  const increaseAmount = (product:StoredItemProps) =>{
     setCartItems(cartItems=>{
-      if(cartItems.find(item => item.id === id)==null){
-        return [...cartItems, {id, amount: 1}]
+      if(cartItems.find(item => item.id === product.id)==null){
+        return [...cartItems, {...product, amount: 1}]
       }
       else{
         return cartItems.map(item=>{
-          if(item.id===id){
+          if(item.id===product.id){
             return {...item, amount: item.amount+1}
           }
           else{
@@ -59,14 +68,14 @@ const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
   }
 
   //Product Amount Decrement
-  const decreaseAmount = (id: number) =>{
+  const decreaseAmount = (product:StoredItemProps) =>{
     setCartItems(cartItems=>{
-      if(cartItems.find(item => item.id === id)?.amount == 1){
-        return cartItems.filter(item => item.id !== id);
+      if(cartItems.find(item => item.id === product.id)?.amount == 1){
+        return cartItems.filter(item => item.id !== product.id);
       }
       else{
         return cartItems.map(item=>{
-          if(item.id===id){
+          if(item.id===product.id){
             return {...item, amount: item.amount-1}
           }
           else{
@@ -87,14 +96,10 @@ const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
     return item.amount + qty;
   }, 0);
   const openCart = () => {
-    
     setIsCartOpen(true);
-    console.log(isCartOpen);
   }
   const closeCart = () =>{
-    
-    setIsCartOpen(false);
-    console.log(isCartOpen);
+    setIsCartOpen(false)
   }
  
   return (
