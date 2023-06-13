@@ -2,10 +2,7 @@ import {createContext, ReactNode, useState} from "react";
 import ShoppingCart from "../components/ShoppingCart";
 
 //UseState Cart Type
-type CartItemType = {
-  id: number;
-  amount: number;
-}
+
 
 type StoredItemProps = {
   id: number;
@@ -14,6 +11,7 @@ type StoredItemProps = {
   category: string;
   description: string;
   image: string;
+  amount: number;
 } 
 
 
@@ -26,7 +24,7 @@ type ShoppingCartContextType = {
   decreaseAmount: (product:StoredItemProps) => void;
   deleteAmount: (id:number) => void;
   cartAmount: number;
-  cartItems: Array<CartItemType>;
+  cartItems: Array<StoredItemProps>;
 }
 
 
@@ -40,7 +38,7 @@ type ShoppingCartContextProps = {
 
 //Provider
 const ShoppingProvider = ({children}:ShoppingCartContextProps ) => {
-  const [cartItems, setCartItems] = useState <CartItemType[]>([]);
+  const [cartItems, setCartItems] = useState <StoredItemProps[]>([]);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   //Fixing the amount of the product
